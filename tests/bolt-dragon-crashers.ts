@@ -32,7 +32,7 @@ async function initializeCombatants(
     connection: provider.connection,
   });
   await provider.sendAndConfirm(entity.transaction);
-  
+
   // Initialize each component
   for (const component of components) {
     const componentInit = await InitializeComponent({
@@ -44,7 +44,7 @@ async function initializeCombatants(
   }
 
   const combatInitSystem = anchor.workspace.CombatInit as Program<CombatInit>;
-  const combatInit = await ApplySystem  ({
+  const combatInit = await ApplySystem({
     authority: provider.wallet.publicKey,
     systemId: combatInitSystem.programId,
     world: worldPda,
@@ -56,7 +56,6 @@ async function initializeCombatants(
     ],
   });
   await provider.sendAndConfirm(combatInit.transaction);
-
 
   return entity.entityPda;
 }
@@ -79,7 +78,8 @@ describe("bolt-dragon-crashers", () => {
   const readynessComponent = anchor.workspace.Readyness as Program<Readyness>;
   const speedComponent = anchor.workspace.Speed as Program<Speed>;
   const healthComponent = anchor.workspace.Health as Program<Health>;
-  const combatActionSystem = anchor.workspace.CombatAction as Program<CombatAction>;
+  const combatActionSystem = anchor.workspace
+    .CombatAction as Program<CombatAction>;
   const combatTickSystem = anchor.workspace.CombatTick as Program<CombatTick>;
 
   it("InitializeNewWorld", async () => {
@@ -171,59 +171,90 @@ describe("bolt-dragon-crashers", () => {
     console.log(`Initialized dragon entity (ID=${dragonPda})`);
   });
 
-  it("Perpetually apply the combat systems", function (done) {
+  it("Perpetually apply the combat systems", async function () {
     this.timeout(0); // Disable timeout for this test
 
-    const applyCombatSystems = async () => {
-      try {
-        for (let i = 0; i < 1; i++) {
-          // Apply the combat tick system
-          const tickSystem = await ApplySystem({
-            authority: provider.wallet.publicKey,
-            systemId: combatTickSystem.programId,
-            world: worldPda,
-            entities: [
-              {
-                entity: fighterPda,
-                components: [{ componentId: readynessComponent.programId }],
-              },
-              {
-                entity: dragonPda,
-                components: [{ componentId: readynessComponent.programId }],
-              },
+    for (;;) {
+      // Apply the combat tick system
+      const tickSystem1 = await ApplySystem({
+        authority: provider.wallet.publicKey,
+        systemId: combatTickSystem.programId,
+        world: worldPda,
+        entities: [
+          {
+            entity: fighterPda,
+            components: [
+              { componentId: speedComponent.programId },
+              { componentId: readynessComponent.programId },
+              { componentId: nameComponent.programId },
             ],
-          });
-          const txSignTick = await provider.sendAndConfirm(tickSystem.transaction);
-          console.log(`Applied a system. Signature: ${txSignTick}`);
-          process.stdout.write('', () => {}); // Flush the console
+          },
+        ],
+      });
+      const txSignTick = await provider.sendAndConfirm(tickSystem1.transaction);
+      console.log(`Applied a system. Signature: ${txSignTick}`);
 
-          // Apply the combat action system
-          const actionSystem = await ApplySystem({
-            authority: provider.wallet.publicKey,
-            systemId: combatActionSystem.programId,
-            world: worldPda,
-            entities: [
-              {
-                entity: fighterPda,
-                components: [{ componentId: readynessComponent.programId }],
-              },
-              {
-                entity: dragonPda,
-                components: [{ componentId: readynessComponent.programId }],
-              },
+      const tickSystem2 = await ApplySystem({
+        authority: provider.wallet.publicKey,
+        systemId: combatTickSystem.programId,
+        world: worldPda,
+        entities: [
+          {
+            entity: dragonPda,
+            components: [
+              { componentId: speedComponent.programId },
+              { componentId: readynessComponent.programId },
+              { componentId: nameComponent.programId },
             ],
-          });
-          const txSignAction = await provider.sendAndConfirm(actionSystem.transaction);
-          console.log(`Applied a system. Signature: ${txSignAction}`);
+          },
+        ],
+      });
+      const txSignTick2 = await provider.sendAndConfirm(
+        tickSystem2.transaction
+      );
+      console.log(`Applied a system. Signature: ${txSignTick2}`);
 
-          // Introduce a 400 ms delay
-          await new Promise(resolve => setTimeout(resolve, 400));
-        }
-      } catch (error) {
-        console.error('Error applying system:', error);
-      }
-    };
+      // Apply the combat action system
+      const actionSystem = await ApplySystem({
+        authority: provider.wallet.publicKey,
+        systemId: combatActionSystem.programId,
+        world: worldPda,
+        entities: [
+          {
+            entity: fighterPda,
+            components: [
+              { componentId: readynessComponent.programId },
+              { componentId: nameComponent.programId },
+            ],
+          },
+        ],
+      });
+      const txSignAction = await provider.sendAndConfirm(
+        actionSystem.transaction
+      );
+      console.log(`Applied a system. Signature: ${txSignAction}`);
 
-    applyCombatSystems();
+      const actionSystem2 = await ApplySystem({
+        authority: provider.wallet.publicKey,
+        systemId: combatActionSystem.programId,
+        world: worldPda,
+        entities: [
+          {
+            entity: dragonPda,
+            components: [
+              { componentId: readynessComponent.programId },
+              { componentId: nameComponent.programId },
+            ],
+          },
+        ],
+      });
+      const txSignAction2 = await provider.sendAndConfirm(
+        actionSystem2.transaction
+      );
+      console.log(`Applied a system. Signature: ${txSignAction2}`);
+
+      // Introduce a 400 ms delay
+      await new Promise((resolve) => setTimeout(resolve, 400));
+    }
   });
 });
