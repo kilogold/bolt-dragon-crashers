@@ -9,9 +9,9 @@ declare_id!("6YjSmdFeVvH4upAPTfQtVRhLv9QMtkKf6HP53hxF3RQp");
 #[system]
 pub mod combat_init {
 
-    pub fn execute(ctx: Context<Components>, _args_p: Vec<u8>) -> Result<Components> {
+    pub fn execute(ctx: Context<Components>, _args_p: String) -> Result<Components> {
         let name = &mut ctx.accounts.name;
-        name.value = String::from_utf8(_args_p).unwrap();
+        name.value = _args_p;
 
         let readyness = &mut ctx.accounts.readyness;
         readyness.reset();

@@ -54,6 +54,7 @@ async function initializeCombatants(
         components: components.map((c) => ({ componentId: c.programId })),
       },
     ],
+    args: name as unknown as object, // Type assertion to bypass the lint error
   });
   await provider.sendAndConfirm(combatInit.transaction);
 
@@ -252,9 +253,6 @@ describe("bolt-dragon-crashers", () => {
         actionSystem2.transaction
       );
       console.log(`Applied a system. Signature: ${txSignAction2}`);
-
-      // Introduce a 400 ms delay
-      await new Promise((resolve) => setTimeout(resolve, 400));
     }
   });
 });
