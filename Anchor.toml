@@ -6,8 +6,15 @@ skip-lint = false
 
 [programs.localnet]
 bolt_dragon_crashers = "7SEoX1p2qzA3RwJfWDy5Qbr5eUaX7WHiiQS8gQrhwGgJ"
+combat_action = "ETKsaGsmpG5Sm7MnnYEgTTosZCcnZmDmqUvtNg4gEMeC"
+combat_init = "6YjSmdFeVvH4upAPTfQtVRhLv9QMtkKf6HP53hxF3RQp"
+combat_tick = "HyEV1NvAifHHcUjUvWEEiHwHDNEv72zzoc5JSdz3LTQv"
+health = "HcSHqsdjd27qnALpigeyAYTP63Ek666ifg4yYDVxSGbs"
 movement = "H3NPkyXoHAvNDX8LXoqbRQ6vW6K3orJn1Hszr2XEmqMy"
+name = "7mzf8mMVJ8j2scTrhtkvpvazJB9usdfgUj1jLjNKDaQU"
 position = "9CgPjx11JvDGFW2E4NLVRq2bP9PKVaX6uwpznEToucqE"
+readyness = "2R2rw36VaaBYtu9xdKq7Voxg8J2L9ZhJV5Fi1yHJqBSH"
+speed = "3ZvC3WF9r5kj3nW2rSbYBwkkxTn47R7EnAbWH29xJBr5"
 
 [registry]
 url = "https://api.apr.dev"

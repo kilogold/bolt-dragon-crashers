@@ -1,0 +1,30 @@
+[package]
+name = "combat_init"
+version = "0.1.10"
+description = "Created with Bolt"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "combat_init"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+idl-build = ["anchor-lang/idl-build"]
+anchor-debug = ["anchor-lang/anchor-debug"]
+custom-heap = []
+custom-panic = []
+
+
+[dependencies]
+bolt-lang.workspace = true
+anchor-lang.workspace = true
+serde = { version = "1.0", features = ["derive"] }
+name = { version = "0.1.10", path = "../../components/name", features = ["cpi"] }
+readyness = { version = "0.1.10", path = "../../components/readyness", features = ["cpi"] }
+speed = { version = "0.1.10", path = "../../components/speed", features = ["cpi"] }
+health = { version = "0.1.10", path = "../../components/health", features = ["cpi"] }

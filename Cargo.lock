@@ -818,6 +818,42 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "613afe47fcd5fac7ccf1db93babcb082c5994d996f20b8b159f2ad1658eb5724"
 
 [[package]]
+name = "combat_action"
+version = "0.1.10"
+dependencies = [
+ "anchor-lang",
+ "bolt-lang",
+ "name",
+ "readyness",
+ "serde",
+]
+
+[[package]]
+name = "combat_init"
+version = "0.1.10"
+dependencies = [
+ "anchor-lang",
+ "bolt-lang",
+ "health",
+ "name",
+ "readyness",
+ "serde",
+ "speed",
+]
+
+[[package]]
+name = "combat_tick"
+version = "0.1.10"
+dependencies = [
+ "anchor-lang",
+ "bolt-lang",
+ "name",
+ "readyness",
+ "serde",
+ "speed",
+]
+
+[[package]]
 name = "console_error_panic_hook"
 version = "0.1.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1064,6 +1100,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bf151400ff0baff5465007dd2f3e717f3fe502074ca563069ce3a6629d07b289"
 
 [[package]]
+name = "health"
+version = "0.1.10"
+dependencies = [
+ "anchor-lang",
+ "bolt-lang",
+]
+
+[[package]]
 name = "heck"
 version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1282,6 +1326,14 @@ dependencies = [
  "bolt-lang",
  "position",
  "serde",
+]
+
+[[package]]
+name = "name"
+version = "0.1.10"
+dependencies = [
+ "anchor-lang",
+ "bolt-lang",
 ]
 
 [[package]]
@@ -1524,6 +1576,14 @@ checksum = "1465873a3dfdaa8ae7cb14b4383657caab0b3e8a0aa9ae8e04b044854c8dfce2"
 dependencies = [
  "crossbeam-deque",
  "crossbeam-utils",
+]
+
+[[package]]
+name = "readyness"
+version = "0.1.10"
+dependencies = [
+ "anchor-lang",
+ "bolt-lang",
 ]
 
 [[package]]
@@ -1819,6 +1879,14 @@ name = "solana-security-txt"
 version = "1.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "468aa43b7edb1f9b7b7b686d5c3aeb6630dc1708e86e31343499dd5c4d775183"
+
+[[package]]
+name = "speed"
+version = "0.1.10"
+dependencies = [
+ "anchor-lang",
+ "bolt-lang",
+]
 
 [[package]]
 name = "subtle"
